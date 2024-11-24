@@ -9,10 +9,6 @@ COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
-COPY .env .
-ENV KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
-ENV KAFKA_TOPIC=${KAFKA_TOPIC}
-
 # Copy the application code
 COPY . .
 
