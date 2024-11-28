@@ -25,7 +25,7 @@ def make_message_obj(symbols, prices):
 
 # List of stock symbols
 symbols = ["RELIANCE.NS", "TATASTEEL.NS", "INFY.NS"]
-rateLimiter = RateLimiter(os.environ.get('SLEEP_INTERVAL_TIME'))
+rateLimiter = RateLimiter(int(os.environ.get('SLEEP_INTERVAL_TIME')))
 kafkaProducer = KafkaProducerClass([os.environ.get('KAFKA_BOOTSTRAP_SERVERS')], os.environ.get('KAFKA_TOPIC'))
 # Infinite loop to fetch data every second
 try:
