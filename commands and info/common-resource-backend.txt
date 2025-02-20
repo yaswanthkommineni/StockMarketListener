@@ -1,0 +1,3 @@
+ => setup the pom.xml from spring boot website
+ => mvn clean install => To install the dependencies
+ => mvn spring-boot:run => for executing the project
