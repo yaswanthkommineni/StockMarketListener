@@ -11,7 +11,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, Messa
 
 # The environment variables that needs to be set to execute this file
 # the telegramToken should be moved to database
-telegramToken = "7770625741:AAEVFfiOg0JpZ9fk2dSZsP288Sav1BrVSbI"
+telegramToken = "<your_token>"
 endpoint = "http://localhost:9090/"
 
 # Logging configuration
