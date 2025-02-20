@@ -1,0 +1,64 @@
+For setting up docker:
+
+ => sudo apt-get update
+ => sudo apt-get install -y docker.io
+ => sudo systemctl start docker
+ => sudo systemctl enable docker
+
+docker --version
+
+ => sudo systemctl status docker => for checking the status of the docker daemon
+
+ => sudo usermod -aG docker yaswanthphanikommineni => for adding my username to the docker group for the permissions to do operations in the docker
+
+
+
+For creating kafka and zookeeper images from a popular source on internet for this purpose
+
+ => docker pull wurstmeister/zookeeper:latest
+
+ => docker pull wurstmeister/kafka:latest
+
+
+For executing the containers
+
+ => docker network create kafka-network => for creating a network where our containers run on
+
+ => docker run -d --name zookeeper --network kafka-network -p XXXX:XXXX wurstmeister/zookeeper:latest  => for running the zookeeper and binding the VMs port XXXX to the zookeeper port XXXX
+
+ => docker run -d --name kafka --network kafka-network -p XXXX:XXXX -p XXXX:XXXX \
+  -e KAFKA_LISTENERS=INSIDE://0.0.0.0:XXXX,OUTSIDE://0.0.0.0:XXXX \
+  -e KAFKA_ADVERTISED_LISTENERS=INSIDE://localhost:9092,OUTSIDE://34.47.174.XXX:XXXX \
+  -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT \
+  -e KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE \
+  -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 \
+  wurstmeister/kafka:latest
+
+	- In the above command all are pretty much port details but the External IP address provided to the kafka_advertised_listeners need attention
+	- You need to find the external IP address (if allowed) for your VM but clicking on VM instance and then clicking on the network rules
+	- This IP address is used but the consumers and producers to use the kafka broker
+
+This command gives a container ID 
+
+
+To get the status of the containers executing
+
+ => docker ps => to see the list of existing containers
+ => docker ps -a => to see the list of all the containers (even the ones that are exited)
+ => docker logs <containerId> => for getting logs of the container execution
+ => docker stop <containerId> => for stopping the contiainer
+ => docker rm <containerId> => for removing the container which is not running (to remove a container you should stop it)
+
+
+You should create a network rule that allows traffic to the port TCP/9093 (allowing all systems across internet 0.0.0.0/0)
+
+ => telnet 34.47.XXX.XXX XXXX => install telnet if already not there (to test the port and connection)
+
+
+Topic creation
+
+ => docker exec -it kafka kafka-topics.sh --create --topic stock-data-stream --bootstrap-server OUTSIDE://34.47.174.XXX:XXXX --partitions 1 --replication-factor 1 => Replication-factor: how many replications are stored for messages, partitions: for load distribution
+
+Topic producers and consumers
+
+ => docker exec -it kafka kafka-console-producer.sh --broker-list OUTSIDE://34.47.174.XXX:XXXX --topic stock-data-stream => for testing topic producer (enter messages and click enter, consumer should be able to see the messages)

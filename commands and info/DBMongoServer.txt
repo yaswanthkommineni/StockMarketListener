@@ -1,0 +1,6 @@
+=> create a cluster in mongoDB atlas
+=> data model : 
+	let teleId: information required to send message to telegram
+	Alerts: (ticker) (price threshold) (teleId) (any extra flag) => index on ticker and threshold, index on teleId
+	Users: (teleId) (userInformation) 
+	Tickers: list of tickers

@@ -1,0 +1,19 @@
+After creating all the required files (docker, requirements, env...) in the git repo
+
+ => git clone https://github.com/your-repo-name.git => get the appropriate http and clone it
+
+ => docker build -t stock-data-producer .
+	=> docker build --no-cache -t stock-data-producer . => if you don't want to load anything from cache
+	=> to build the docker image
+	=> go to the folder where the Dockerfile is located and execute this (stock-data-producer is the image name)
+
+ => docker run -d \
+  -e KAFKA_BOOTSTRAP_SERVERS="34.47.174.XXX:XXXX" \
+  -e KAFKA_TOPIC="stock-data-stream" \
+  -e SLEEP_INTERVAL_TIME="5" \
+  stock-data-producer
+	=> to run the image 
+	=> the argument just after name is the container name and the second argument is the image name 
+
+
+ => python producerScript.py
