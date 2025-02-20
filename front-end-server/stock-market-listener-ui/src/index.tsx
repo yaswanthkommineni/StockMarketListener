@@ -1,6 +1,7 @@
 import { h, render } from 'preact';
+import {LandingPage} from './landingPage/LandingPage'
 
-const App = () => <h1>Hello, Preact with TypeScript!</h1>;
+const App = () => <h1><LandingPage/></h1>;
 
 const root = document.getElementById('app');
 if (root) {
